@@ -13,9 +13,7 @@ def mandel(x, y, max_iters):
             return i
     return max_iters
 
-@cuda.jit((f8, f8, uint32), device=True)
-def mandel_gpu(x, y, max_iters):
-    return mandel(x, y, max_iters)
+mandel_gpu = cuda.jit((f8, f8, uint32), device=True)(mandel)
 
 @cuda.jit((f8, f8, f8, f8, uint8[:,:], uint32))
 def mandel_kernel(min_x, max_x, min_y, max_y, image, iters):
